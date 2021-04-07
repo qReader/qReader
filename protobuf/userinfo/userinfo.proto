@@ -1,0 +1,161 @@
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+syntax="proto2";
+import "common.proto";
+import "bookinfo.proto";
+package userService;
+
+option cc_generic_services = true;
+
+//每一个服务保留Echo功能，方便测试
+message EchoRequest {
+      required string message = 1;
+};
+
+message EchoResponse {
+      required string message = 1;
+};
+
+service EchoService {
+      rpc Echo(EchoRequest) returns (EchoResponse);
+};
+
+
+
+message userInfoReq {	
+	required int32 userId = 1;
+}
+
+
+/*
+	userId : 账户
+	nickName : 昵称
+	headUrl ：头像url链接
+	male : 性别
+	age : 年龄
+	profile : 简介
+*/
+
+message userInfoResp {
+	required int32 userId = 1;
+	required string nickName = 2;
+	required string headImgUrl = 3;
+	required bool male = 4;
+	required int32 age = 5;
+	required string profile = 6;
+}
+
+/*
+	userId : 账户
+	userPwd : 密码
+	loginTime : 登录时间
+	loginType : 登录设备类型
+*/
+message loginInfoReq {
+      required int32 userId = 1; 
+      required string userPwd = 2;
+      optional int32 loginTime = 3;
+      optional int32 logintype = 4;
+};
+
+
+/*
+	注册账号
+	注册密码	
+*/
+message registerReq {
+	required int32 userId = 1;
+	required string userPwd = 2;
+
+};
+
+
+
+
+service loginService {
+	rpc loginFun(loginInfoReq) returns (common.commenResp);
+	rpc registerFun(registerReq) returns (common.commenResp);
+};
+
+/*
+个性设置有几个接口
+1 获取信息
+2 设置信息
+设置不同的信息由前端处理，统一使用同一个接口
+*/
+service personalService {
+	rpc userInfoFun(userInfoReq) returns (userInfoResp); 
+	rpc setUserInfoFun(userInfoReq) returns (common.commenResp);	
+};
+
+
+
+
+
+
+/*
+获取用户操作记录
+1 阅读书籍
+2 历史笔记
+3 历史评论信息
+4 操作记录
+*/
+service recordService {
+//	rpc getReadRecordFun() returns
+
+
+
+	rpc getMyBookFun(bookinfo.getMyBookInfoReq) returns(bookinfo.readBookRecordResp);	
+	rpc addMyBookFun(bookinfo.bookInfoItem) returns(common.commenResp);
+	rpc delMyBookFun(bookinfo.delMyBookReq) returns(common.commenResp);
+	
+
+	rpc getCommentRecordFun(common.getMyCommentReq) returns(common.commentListResp);
+	rpc addCommentRecordFun(common.commentItem1) returns(common.commenResp);
+	rpc delCommentRecordFun(common.DelCommentReq) returns(common.commenResp);
+	rpc upCommentRecordFun(common.commentItem1) returns(common.commenResp);		
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

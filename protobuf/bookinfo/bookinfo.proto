@@ -1,0 +1,50 @@
+syntax="proto2";
+package bookinfo;
+
+option cc_generic_services = true;
+
+
+message bookInfoItem {
+	required int32  bookId = 1;
+	required string bookNmae = 2;
+	required string bookHeadUrl = 3;
+	required string bookDownUrl = 4;
+	required int32  bookType = 5;
+	required int32  hits = 6;
+	required int32  authorName = 7;
+}
+
+message bookInfoItem1 {
+	required int32  bookId = 1;
+	required string bookNmae = 2;
+	required string bookHeadUrl = 3;
+	required string authorName = 4;
+	required int32  downtimestamp = 5;
+}
+
+message delMyBookReq {
+	required int32 bookId = 1;
+}
+message bookMarkItem {
+	required int32 bookId = 1;
+}
+
+message readBookRecordResp {
+	repeated bookInfoItem1 bookLists = 1;
+	required int32 bookCnts = 2; 
+}
+
+/*
+	查询某个用户的书架信息，分页查询时用到
+	offset: 偏移值
+	count: 总数	
+*/
+message getMyBookInfoReq {
+	required int32 userId = 1;
+	optional int32 offset = 2;
+	optional int32 count = 3;
+}
+
+
+
+

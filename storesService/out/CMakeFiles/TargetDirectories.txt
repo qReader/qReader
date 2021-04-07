@@ -1,0 +1,2 @@
+/root/Reader/BRPC/workroot/userService/out/CMakeFiles/client.dir
+/root/Reader/BRPC/workroot/userService/out/CMakeFiles/server.dir

@@ -1,0 +1,60 @@
+syntax="proto2";
+package common;
+
+option cc_generic_services = true;
+
+message commenResp {
+      required int32 code = 1;
+      optional string errorRes = 2;
+}
+
+/*
+	点赞和评论公有部分
+
+
+	
+
+*/
+
+message supportItem {
+	required int32 supportId = 1;
+	required int32 userId = 2;
+	required int32 timestamp = 3;
+	required int32 type = 4;
+}
+
+
+message commentItem1 {
+	required int32 commentId = 1;
+	required int32 userId = 2;
+	required int32 bookId = 3;
+	required int32 pageId = 4;
+	required int32 parentId = 5;
+	required string commentContent = 6;
+	required int32 timestamp = 7;	
+	required int32 type = 8;		
+}
+
+message DelCommentReq {
+	required int32 commentId = 1;
+}
+
+
+/*
+	评论信息获取
+*/
+message commentListResp {
+	repeated commentItem1 lists = 1;
+	required int32 commentCnts = 2;	
+}
+
+/*
+	查询某个用户的comment信息，分页查询时用到
+	offset: 偏移值
+	count: 总数	
+*/
+message getMyCommentReq {
+	required int32 userId = 1;
+	optional int32 offset = 2;
+	optional int32 count = 3;
+}

@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+009ad897eab9906397009d12b2b17887 bookinfo.pb.cc
+6061f2cf285b249abbca72edd90ce420 common.pb.cc
+86093998e7bfd1f08e1e302fa5078353 userinfo.pb.cc
