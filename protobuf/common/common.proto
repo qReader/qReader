@@ -3,7 +3,7 @@ package common;
 
 option cc_generic_services = true;
 
-message commenResp {
+message commonResp {
       required int32 code = 1;
       optional string errorRes = 2;
 }

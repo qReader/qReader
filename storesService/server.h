@@ -1,7 +1,6 @@
 #include <gflags/gflags.h>
 #include <butil/logging.h>
 #include <brpc/server.h>
-#include "userinfo.pb.h"
 
 
 DEFINE_bool(echo_attachment, true, "Echo attachment as well");
@@ -53,11 +52,7 @@ class EchoServiceImpl : public EchoService {
 					cntl->response_attachment().append(cntl->request_attachment());
 				}
 		}
-};
-
-};
-
-
+}; }; 
 
 
 

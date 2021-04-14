@@ -18,14 +18,14 @@
 // A server to receive EchoRequest and send back EchoResponse.
 
 #include "server.h"
-
+using namespace std;
 int main(int argc, char* argv[]) {
     // Parse gflags. We recommend you to use gflags as well.
     GFLAGS_NS::ParseCommandLineFlags(&argc, &argv, true);
 
     // Generally you only need one Server.
     brpc::Server server;
-
+    cout << conn() << endl;
     // Instance of your service.
     userService::EchoServiceImpl echo_service_impl;
     userService::loginServiceImpl  login_service_impl;

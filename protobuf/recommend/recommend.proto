@@ -1,0 +1,19 @@
+syntax="proto2";
+package recommend;
+import "common.proto";
+import "bookinfo.proto";
+option cc_generic_services = true;
+/*
+
+推荐相关
+	相关推荐 搜索相关推荐
+	历史推荐，通过访问历史进行推荐
+
+*/
+
+
+service recommendService {
+	rpc collectSightData(coordinateListReq) returns(common.commonResp); 
+	rpc collectReadData(bookInfoItem2.bookInfoItem2) returns(common.commonResp);
+	
+} 

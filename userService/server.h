@@ -1,6 +1,7 @@
 #include <gflags/gflags.h>
 #include <butil/logging.h>
 #include <brpc/server.h>
+#include "../lib/dao/userInfo.h"
 #include "userinfo.pb.h"
 
 
@@ -46,7 +47,6 @@ class EchoServiceImpl : public EchoService {
 				// You can compress the response by setting Controller, but be aware
 				// that compression may be costly, evaluate before turning on.
 				// cntl->set_response_compress_type(brpc::COMPRESS_TYPE_GZIP);
-
 				if (FLAGS_echo_attachment) {
 					// Set attachment which is wired to network directly instead of
 					// being serialized into protobuf messages.
@@ -64,7 +64,7 @@ class loginServiceImpl : public loginService {
 		virtual ~loginServiceImpl() {};
 		virtual void loginFun(google::protobuf::RpcController* cntl_base,
 				const loginInfoReq* request,
-				common::commenResp * response,
+				common::commonResp * response,
 				google::protobuf::Closure* done) {
 				// This object helps you to call done->Run() in RAII style. If you need
 				// to process the request asynchronously, pass done_guard.release().
@@ -134,7 +134,7 @@ class loginServiceImpl : public loginService {
 	
 		virtual void registerFun(google::protobuf::RpcController* cntl_base,
 				const registerReq* request,
-				common::commenResp * response,
+				common::commonResp * response,
 				google::protobuf::Closure* done) {
 				// This object helps you to call done->Run() in RAII style. If you need
 				// to process the request asynchronously, pass done_guard.release().

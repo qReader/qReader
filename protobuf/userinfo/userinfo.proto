@@ -88,8 +88,8 @@ message registerReq {
 
 
 service loginService {
-	rpc loginFun(loginInfoReq) returns (common.commenResp);
-	rpc registerFun(registerReq) returns (common.commenResp);
+	rpc loginFun(loginInfoReq) returns (common.commonResp);
+	rpc registerFun(registerReq) returns (common.commonResp);
 };
 
 /*
@@ -100,7 +100,7 @@ service loginService {
 */
 service personalService {
 	rpc userInfoFun(userInfoReq) returns (userInfoResp); 
-	rpc setUserInfoFun(userInfoReq) returns (common.commenResp);	
+	rpc setUserInfoFun(userInfoReq) returns (common.commonResp);	
 };
 
 
@@ -121,14 +121,14 @@ service recordService {
 
 
 	rpc getMyBookFun(bookinfo.getMyBookInfoReq) returns(bookinfo.readBookRecordResp);	
-	rpc addMyBookFun(bookinfo.bookInfoItem) returns(common.commenResp);
-	rpc delMyBookFun(bookinfo.delMyBookReq) returns(common.commenResp);
+	rpc addMyBookFun(bookinfo.bookInfoItem) returns(common.commonResp);
+	rpc delMyBookFun(bookinfo.delMyBookReq) returns(common.commonResp);
 	
 
 	rpc getCommentRecordFun(common.getMyCommentReq) returns(common.commentListResp);
-	rpc addCommentRecordFun(common.commentItem1) returns(common.commenResp);
-	rpc delCommentRecordFun(common.DelCommentReq) returns(common.commenResp);
-	rpc upCommentRecordFun(common.commentItem1) returns(common.commenResp);		
+	rpc addCommentRecordFun(common.commentItem1) returns(common.commonResp);
+	rpc delCommentRecordFun(common.DelCommentReq) returns(common.commonResp);
+	rpc upCommentRecordFun(common.commentItem1) returns(common.commonResp);		
 
 
 };

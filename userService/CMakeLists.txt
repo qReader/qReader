@@ -13,7 +13,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-cmake_minimum_required(VERSION 2.8.10)
+cmake_minimum_required(VERSION 3.0)
 project(userinfo C CXX)
 
 option(LINK_SO "Whether examples are linked dynamically" OFF)
@@ -40,8 +40,7 @@ endif()
 find_library(THRIFTNB_LIB NAMES thriftnb)
 if (NOT THRIFTNB_LIB)
     set(THRIFTNB_LIB "")
-endif()
-
+endif() 
 find_path(BRPC_INCLUDE_PATH NAMES brpc/server.h)
 if(LINK_SO)
     find_library(BRPC_LIB NAMES brpc)
@@ -59,6 +58,9 @@ if((NOT GFLAGS_INCLUDE_PATH) OR (NOT GFLAGS_LIBRARY))
     message(FATAL_ERROR "Fail to find gflags")
 endif()
 include_directories(${GFLAGS_INCLUDE_PATH})
+
+include_directories(../lib/dao)
+add_library(dao STATIC ../lib/dao/userInfo.cpp) 
 
 execute_process(
     COMMAND bash -c "grep \"namespace [_A-Za-z0-9]\\+ {\" ${GFLAGS_INCLUDE_PATH}/gflags/gflags_declare.h | head -1 | awk '{print $2}' | tr -d '\n'"
@@ -79,17 +81,17 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 set(CMAKE_CPP_FLAGS "${DEFINE_CLOCK_GETTIME} -DGFLAGS_NS=${GFLAGS_NS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CPP_FLAGS} -DNDEBUG -O2 -D__const__= -pipe -W -Wall -Wno-unused-parameter -fPIC -fno-omit-frame-pointer")
+set(CMAKE_CXX_FLAGS "${CMAKE_CPP_FLAGS} -pthread -std=c++17 -DNDEBUG -O2 -D__const__= -pipe -W -Wall -Wno-unused-parameter -fPIC -fno-omit-frame-pointer")
 
 if(CMAKE_VERSION VERSION_LESS "3.1.3")
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     endif()
 else()
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 endif()
 
@@ -126,6 +128,7 @@ set(DYNAMIC_LIB
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(DYNAMIC_LIB ${DYNAMIC_LIB}
         pthread
+	mysqlclient
         "-framework CoreFoundation"
         "-framework CoreGraphics"
         "-framework CoreData"
@@ -137,5 +140,5 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         "-Wl,-U,_ProfilerStop")
 endif()
 
-target_link_libraries(client ${BRPC_LIB} ${DYNAMIC_LIB})
-target_link_libraries(server ${BRPC_LIB} ${DYNAMIC_LIB})
+target_link_libraries(client ${BRPC_LIB} ${DYNAMIC_LIB} dao)
+target_link_libraries(server ${BRPC_LIB} ${DYNAMIC_LIB} dao)

@@ -1,0 +1,22 @@
+syntax="proto2";
+package collect;
+import "common.proto";
+import "bookinfo.proto";
+option cc_generic_services = true;
+
+message coordinate {
+	required int32 cx = 1;
+	optional int32 cy = 2;
+	optional int32 timeStamp = 3;
+}
+message coordinateListReq {
+	repeated coordinate = 1;
+	optional int32 cnt = 2;
+
+}
+
+service collectService {
+	rpc collectSightData(coordinateListReq) returns(common.commonResp); 
+	rpc collectReadData(bookInfoItem2.bookInfoItem2) returns(common.commonResp);
+	
+} 

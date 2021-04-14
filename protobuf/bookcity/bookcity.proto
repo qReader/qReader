@@ -1,8 +1,29 @@
 syntax="proto2";
-package bookinfo;
+package bookcity;
 
 import "bookinfo.proto"
 option cc_generic_services = true;
 
  
+/*
+类型:
+1 唐诗宋词
+2 经典名著
+3 课程教材
+4 参考书籍
+5 实验教材
+6 实时新闻
+*/
 
+
+/*
+首页推荐服务：
+	每种类型推荐3本书 包含信息 1 书名 2 图片 3 热度 4 地址信息  可以加入排序规则
+排行榜：
+	热度，点赞数
+
+*/
+service bookCityService{
+	rpc getBookCityMainFun()returns(bookinfo.bookInfoItem);
+	rpc getBookTypeFun(bookinfo.getBookTypeReq) returns(bookinfo.getBookTypeResp);
+}

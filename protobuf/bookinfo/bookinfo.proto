@@ -12,6 +12,7 @@ message bookInfoItem {
 	required int32  bookType = 5;
 	required int32  hits = 6;
 	required int32  authorName = 7;
+	required int32  upimeStamp = 8;
 }
 
 message bookInfoItem1 {
@@ -19,8 +20,17 @@ message bookInfoItem1 {
 	required string bookNmae = 2;
 	required string bookHeadUrl = 3;
 	required string authorName = 4;
-	required int32  downtimestamp = 5;
+	required int32  downtimeStamp = 5;
 }
+
+message bookInfoItem2 {
+	required int32  userId = 1;
+	required int32  bookId = 2;
+	required int32	startTime = 3;
+	required int32  endTime = 4; 
+}
+
+
 
 message delMyBookReq {
 	required int32 bookId = 1;
@@ -34,6 +44,7 @@ message readBookRecordResp {
 	required int32 bookCnts = 2; 
 }
 
+
 /*
 	查询某个用户的书架信息，分页查询时用到
 	offset: 偏移值
@@ -45,6 +56,20 @@ message getMyBookInfoReq {
 	optional int32 count = 3;
 }
 
+/*
+	获取某种type类型的图书
+	默认: 0开始，10条，热度排序	
+*/
+message getBookTypeReq {
+	optional int32 userId = 1;
+	required int32 type = 2;
+	optional int32 offset = 3;
+	optional int32 count = 4;
+	optional int32 sortMethod = 5;
+}
 
-
+message getBookTypeResp {
+	repeated bookInfoItem bookLists = 1;
+	required int32 bookCnts = 2;	
+}
 

@@ -1,1 +1,0 @@
-/usr/bin/c++    -DGFLAGS_NS=google -DNDEBUG -O2 -D__const__= -pipe -W -Wall -Wno-unused-parameter -fPIC -fno-omit-frame-pointer -std=c++11    CMakeFiles/echo_client.dir/client.cpp.o CMakeFiles/echo_client.dir/echo.pb.cc.o  -o echo_client -rdynamic /root/Reader/BRPC/output/lib/libbrpc.a -lpthread -lgflags -lprotobuf -lleveldb -lcrypto -lssl -ldl 

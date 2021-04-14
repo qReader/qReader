@@ -28,7 +28,6 @@ int main(int argc, char* argv[]) {
 
     // Instance of your service.
     userService::EchoServiceImpl echo_service_impl;
-    userService::loginServiceImpl  login_service_impl;
     // Add the service into server. Notice the second parameter, because the
     // service is put on stack, we don't want server to delete it, otherwise
     // use brpc::SERVER_OWNS_SERVICE.
