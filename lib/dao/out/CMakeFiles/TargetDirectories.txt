@@ -1,0 +1,3 @@
+/home/ubuntu/qReader/lib/dao/out/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/qReader/lib/dao/out/CMakeFiles/dao.dir
+/home/ubuntu/qReader/lib/dao/out/CMakeFiles/edit_cache.dir
