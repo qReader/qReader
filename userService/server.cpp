@@ -25,7 +25,6 @@ int main(int argc, char* argv[]) {
 
     // Generally you only need one Server.
     brpc::Server server;
-    cout << conn() << endl;
     // Instance of your service.
     userService::EchoServiceImpl echo_service_impl;
     userService::loginServiceImpl  login_service_impl;

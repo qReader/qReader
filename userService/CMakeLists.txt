@@ -25,6 +25,12 @@ execute_process(
 
 set(CMAKE_PREFIX_PATH ${OUTPUT_PATH})
 
+
+SET(ENABLE_MYSQL ON)
+if (ENABLE_MYSQL)
+add_definitions(-DORMPP_ENABLE_MYSQL)
+endif()
+
 include(FindThreads)
 include(FindProtobuf)
 protobuf_generate_cpp(PROTO_SRC PROTO_HEADER ../protobuf/common/common.proto ../protobuf/bookinfo/bookinfo.proto ../protobuf/userinfo/userinfo.proto )
@@ -59,8 +65,11 @@ if((NOT GFLAGS_INCLUDE_PATH) OR (NOT GFLAGS_LIBRARY))
 endif()
 include_directories(${GFLAGS_INCLUDE_PATH})
 
+
+
 include_directories(../lib/dao)
-add_library(dao STATIC ../lib/dao/userInfo.cpp) 
+aux_source_directory(../lib/dao src_dirs) 
+link_directories(../lib/dao/out)
 
 execute_process(
     COMMAND bash -c "grep \"namespace [_A-Za-z0-9]\\+ {\" ${GFLAGS_INCLUDE_PATH}/gflags/gflags_declare.h | head -1 | awk '{print $2}' | tr -d '\n'"
@@ -111,7 +120,7 @@ include_directories(${OPENSSL_INCLUDE_DIR})
 find_package(OpenSSL)
 
 add_executable(client client.cpp ${PROTO_SRC} ${PROTO_HEADER})
-add_executable(server server.cpp ${PROTO_SRC} ${PROTO_HEADER})
+add_executable(server server.cpp ${PROTO_SRC} ${PROTO_HEADER} ${src_dirs})
 
 set(DYNAMIC_LIB
     ${CMAKE_THREAD_LIBS_INIT}
@@ -140,5 +149,5 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         "-Wl,-U,_ProfilerStop")
 endif()
 
-target_link_libraries(client ${BRPC_LIB} ${DYNAMIC_LIB} dao)
-target_link_libraries(server ${BRPC_LIB} ${DYNAMIC_LIB} dao)
+target_link_libraries(client ${BRPC_LIB} ${DYNAMIC_LIB} )
+target_link_libraries(server ${BRPC_LIB} ${DYNAMIC_LIB} libdao.a mysqlclient)

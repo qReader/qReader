@@ -1,8 +1,3 @@
-#include "userInfo.h"
-using namespace std;
-int conn(){
-	return 1;
-}
 /*
 //TEST_CASE(mysql_performance){
 //    dbng<mysql> mysql;

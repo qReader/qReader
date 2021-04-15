@@ -12,7 +12,8 @@ endif()
 INCLUDE_DIRECTORIES(
                     ${CMAKE_SOURCE_DIR}/iguana
                    )
-# add_executable(ormpp ${SOURCE_FILES})
+	   
+#add_executable(ormpp ${SOURCE_FILES})
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -20,5 +21,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 aux_source_directory(. DIR_USERINFO_SRCS)
 add_library(dao ${DIR_USERINFO_SRCS})
 if (ENABLE_MYSQL)
-	#target_link_libraries(ormpp mysqlclient)
+	target_link_libraries(dao mysqlclient)
 endif()

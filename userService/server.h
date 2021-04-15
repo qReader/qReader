@@ -1,7 +1,7 @@
 #include <gflags/gflags.h>
 #include <butil/logging.h>
 #include <brpc/server.h>
-#include "../lib/dao/userInfo.h"
+#include "../lib/dao/userInfo.hpp"
 #include "userinfo.pb.h"
 
 

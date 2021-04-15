@@ -1,17 +1,9 @@
-#ifdef _MSC_VER
-#ifdef _WIN64
-#include <WinSock2.h>
-#elif _WIN32
-#include <winsock.h>
-#endif
-
-#endif
+#ifndef _DAO_H
+#define _DAO_H
 #include <iostream>
 #include <thread>
-
-#ifdef ORMPP_ENABLE_MYSQL
+#include <memory>
 #include "mysql.hpp"
-#endif
 
 #include "dbng.hpp"
 #include "connection_pool.hpp"
@@ -21,7 +13,22 @@
 //#include "unit_test.hpp"
 
 using namespace std::string_literals;
+using namespace ormpp;
 
+
+std::shared_ptr<dbng<mysql>> get_conn_form_pool(){
+	ormpp_cfg cfg{};
+	auto& pool = connection_pool<dbng<mysql>>::instance();
+    	try {
+    	pool.init(cfg.db_conn_num, cfg.db_ip.data(), cfg.user_name.data(), cfg.pwd.data(), cfg.db_name.data(), cfg.timeout);
+    	}catch(const std::exception& e){
+    		std::cout<<e.what()<<std::endl; 
+		return NULL;
+	}
+	return pool.get();
+}
+
+/*
 struct test_tb {
 	int id;
 	char name[12];
@@ -55,5 +62,5 @@ REFLECTION(simple, id, code, age);
 
 using namespace ormpp;
 //const char* ip = "127.0.0.1"; //your database ip
-
-int conn();
+*/
+#endif
