@@ -1,2 +1,0 @@
-/usr/bin/ar qc libdao.a  CMakeFiles/dao.dir/userInfo.cpp.o
-/usr/bin/ranlib libdao.a
