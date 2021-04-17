@@ -119,7 +119,6 @@ endif()
 include_directories(${OPENSSL_INCLUDE_DIR})
 find_package(OpenSSL)
 
-add_executable(client client.cpp ${PROTO_SRC} ${PROTO_HEADER})
 add_executable(server server.cpp ${PROTO_SRC} ${PROTO_HEADER} ${src_dirs})
 
 set(DYNAMIC_LIB
@@ -149,5 +148,4 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         "-Wl,-U,_ProfilerStop")
 endif()
 
-target_link_libraries(client ${BRPC_LIB} ${DYNAMIC_LIB} )
 target_link_libraries(server ${BRPC_LIB} ${DYNAMIC_LIB} libdao.a mysqlclient)

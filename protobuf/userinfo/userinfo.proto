@@ -92,11 +92,13 @@ message registerReq {
 
 
 
-
 service loginService {
 	rpc loginFun(loginInfoReq) returns (common.commonResp);
 	rpc registerFun(registerReq) returns (common.commonResp);
+	rpc userInfoFun(userInfoReq) returns (userInfoResp);
 };
+
+
 
 /*
 个性设置有几个接口
