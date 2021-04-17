@@ -14,6 +14,7 @@ using namespace ormpp;
 using namespace std;
 namespace ormpp {
 
+
 struct UserInfoTable
 {
 	std::string userId;
@@ -30,20 +31,27 @@ REFLECTION(UserInfoTable, userId, userNickName, userHeadImgUrl, userPwd, userMal
 
 std::shared_ptr<dbng<mysql>> get_conn_from_pool(){
 	ormpp_cfg cfg{};	
-    	bool ret = config_manager::from_file(cfg, "./cfg/ormpp.cfg");
+	static bool isInitPool = 0;
+	cout << "isInitPool:" << isInitPool << endl;
 	auto& pool = connection_pool<dbng<mysql>>::instance();
-    	if (!ret) {
-        	cout << "cfg load filed" << endl;
-    		pool.init(2, "127.0.0.1", "test", "123456789", "datadb", 2);
-		return pool.get();
-	}
-    	try {
-		//Todo
-    		pool.init(cfg.db_conn_num, cfg.db_ip.data(), cfg.user_name.data(), cfg.pwd.data(), cfg.db_name.data(), cfg.timeout);
-		cout << "num:" << cfg.db_conn_num << " ip: "<< cfg.db_ip.data() << " user: " << cfg.user_name.data() << cfg.pwd.data() << endl;
-	}catch(const std::exception& e){
-    		std::cout<<e.what()<<std::endl; 
-		return NULL;
+	if(!isInitPool){
+		bool ret = config_manager::from_file(cfg, "./cfg/ormpp.cfg");
+    		if (!ret) {
+        		cout << "cfg load filed" << endl;
+    			pool.init(2, "127.0.0.1", "test", "123456789", "datadb", 2);
+			return pool.get();
+		}
+    		try {
+			//Todo
+    			pool.init(cfg.db_conn_num, cfg.db_ip.data(), cfg.user_name.data(), cfg.pwd.data(), cfg.db_name.data(), cfg.timeout);
+			isInitPool = 1;
+			cout << "num:" << cfg.db_conn_num << " ip: "<< cfg.db_ip.data() << " user: " << cfg.user_name.data() << cfg.pwd.data() << endl;
+			
+		}catch(const std::exception& e){
+    			std::cout<<e.what()<<std::endl; 
+			return NULL;
+		}
+		
 	}
 	return pool.get();
 }
