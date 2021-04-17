@@ -354,7 +354,7 @@ TEST_CASE(orm_transaction){
 
 #ifdef ORMPP_ENABLE_MYSQL
     dbng<mysql> mysql;
-    TEST_REQUIRE(mysql.connect(ip, "root", "12345", "testdb"));
+    TEST_REQUIRE(mysql.connect(ip, "root", "123456789", "datadb"));
     TEST_REQUIRE(mysql.create_datatable<student>(key, not_null));
 
     TEST_REQUIRE(mysql.begin());

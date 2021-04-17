@@ -82,8 +82,10 @@ namespace ormpp{
         template<typename T>
         inline static bool from_file(T& t, std::string_view file_path) {
             std::ifstream in(file_path.data(), std::ios::binary);
-            if (!in.is_open()) {
-                return false;
+	    std::cout << file_path.data() << std::endl;
+	    if (!in.is_open()) {
+		std::cout << " " << __FILE__ << " : " << __LINE__ << ": cfg cat't open" << std::endl;
+	  	return false;
             }
 
             in.seekg(0, std::ios::end);

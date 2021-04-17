@@ -1,7 +1,7 @@
 #include <gflags/gflags.h>
 #include <butil/logging.h>
 #include <brpc/server.h>
-#include "../lib/dao/userInfo.hpp"
+#include "data.hpp"
 #include "userinfo.pb.h"
 
 
@@ -28,10 +28,9 @@ class EchoServiceImpl : public EchoService {
 				// This object helps you to call done->Run() in RAII style. If you need
 				// to process the request asynchronously, pass done_guard.release().
 				brpc::ClosureGuard done_guard(done);
-
+				
 				brpc::Controller* cntl =
 					static_cast<brpc::Controller*>(cntl_base);
-
 				// The purpose of following logs is to help you to understand
 				// how clients interact with servers more intuitively. You should 
 				// remove these logs in performance-sensitive servers.
@@ -117,7 +116,7 @@ class loginServiceImpl : public loginService {
 					<< " (attached=" << cntl->request_attachment() << ")";
 
 				// Fill response.
-				response->set_userid(1);
+				response->set_userid("1");
 				response->set_nickname("rownh");
 				response->set_headimgurl("dasdas/asdasd/asd");
 				response->set_male(1);
@@ -168,12 +167,55 @@ class loginServiceImpl : public loginService {
 
 
 
+class ControlServiceImpl : public controlService {
+	public:
+		ControlServiceImpl() {};
+		virtual ~ControlServiceImpl() {};
+		virtual void getAllUserInfoFun(google::protobuf::RpcController* cntl_base,
+				const getAllUserInfoReq* request,
+				userInfoRespList* response,
+				google::protobuf::Closure* done) {
+				// This object helps you to call done->Run() in RAII style. If you need
+				// to process the request asynchronously, pass done_guard.release().
+				brpc::ClosureGuard done_guard(done);
+				
+				brpc::Controller* cntl =
+					static_cast<brpc::Controller*>(cntl_base);
+				// The purpose of following logs is to help you to understand
+				// how clients interact with servers more intuitively. You should 
+				// remove these logs in performance-sensitive servers.
+				LOG(INFO) << "Received request[log_id=" << cntl->log_id() 
+					<< "] from " << cntl->remote_side() 
+					<< " to " << cntl->local_side()
+					<< " (attached=" << cntl->request_attachment() << ")";
 
+				// Fill response.
+				vector<UserInfoTable>res;
+				
+				get_all_user(res);
+				int cnt = 0;
+				for(auto i : res){
+					++cnt;
+				cout << i.userId << " "<< i.userHeadImgUrl << " " << endl;
+					auto user = response->add_lists();
+					user->set_userid(i.userId);
+					user->set_nickname(i.userNickName);
+					user->set_headimgurl(i.userHeadImgUrl);
+					user->set_profile(i.userProfile);
+					user->set_male(i.userMale);
+					user->set_age(i.userAge);
+				}	
+				response->set_cnt(cnt);
 
-
-
-
-
-
+				// You can compress the response by setting Controller, but be aware
+				// that compression may be costly, evaluate before turning on.
+				// cntl->set_response_compress_type(brpc::COMPRESS_TYPE_GZIP);
+				if (FLAGS_echo_attachment) {
+					// Set attachment which is wired to network directly instead of
+					// being serialized into protobuf messages.
+					cntl->response_attachment().append(cntl->request_attachment());
+				}
+		}
+};
 }
 

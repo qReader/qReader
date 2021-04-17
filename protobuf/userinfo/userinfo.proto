@@ -38,7 +38,7 @@ service EchoService {
 
 
 message userInfoReq {	
-	required int32 userId = 1;
+	required string userId = 1;
 }
 
 
@@ -52,13 +52,19 @@ message userInfoReq {
 */
 
 message userInfoResp {
-	required int32 userId = 1;
+	required string userId = 1;
 	required string nickName = 2;
 	required string headImgUrl = 3;
 	required bool male = 4;
 	required int32 age = 5;
 	required string profile = 6;
 }
+
+message userInfoRespList {
+	repeated userInfoResp lists = 1;
+	required int32 cnt = 2;
+}
+
 
 /*
 	userId : 账户
@@ -67,7 +73,7 @@ message userInfoResp {
 	loginType : 登录设备类型
 */
 message loginInfoReq {
-      required int32 userId = 1; 
+      required string userId = 1; 
       required string userPwd = 2;
       optional int32 loginTime = 3;
       optional int32 logintype = 4;
@@ -79,7 +85,7 @@ message loginInfoReq {
 	注册密码	
 */
 message registerReq {
-	required int32 userId = 1;
+	required string userId = 1;
 	required string userPwd = 2;
 
 };
@@ -135,6 +141,30 @@ service recordService {
 
 
 
+/*
+	offset : 偏移值
+	size : 每页数目
+
+*/
+message getAllUserInfoReq {
+	optional int64 offset = 1;
+	optional int64 size = 2;
+}
+
+
+
+/*
+后台管理服务
+1 获得所有用户信息
+2 查询某id用户信息
+3 修改用户信息
+4 增加用户信息
+*/
+service controlService {
+	rpc getAllUserInfoFun(getAllUserInfoReq) returns(userInfoRespList);
+	rpc getUserInfoByIdFun(userInfoReq) returns(userInfoResp);
+
+}
 
 
 

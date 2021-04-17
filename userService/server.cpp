@@ -22,12 +22,16 @@ using namespace std;
 int main(int argc, char* argv[]) {
     // Parse gflags. We recommend you to use gflags as well.
     GFLAGS_NS::ParseCommandLineFlags(&argc, &argv, true);
-
+    //create_user_table();
+    //UserInfoTable temp{"1","rownh", "http://www.rownh.top/","root",1,1,"你好 这个人很懒~"};
+    //insert_user(temp);
     // Generally you only need one Server.
     brpc::Server server;
     // Instance of your service.
     userService::EchoServiceImpl echo_service_impl;
     userService::loginServiceImpl  login_service_impl;
+   
+    userService::ControlServiceImpl  control_service_impl;
     // Add the service into server. Notice the second parameter, because the
     // service is put on stack, we don't want server to delete it, otherwise
     // use brpc::SERVER_OWNS_SERVICE.
@@ -43,6 +47,11 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+    if (server.AddService(&control_service_impl, 
+                          brpc::SERVER_DOESNT_OWN_SERVICE) != 0) {
+        LOG(ERROR) << "Fail to add service";
+        return -1;
+    }
     // Start the server.
     brpc::ServerOptions options;
     options.idle_timeout_sec = FLAGS_idle_timeout_s;
